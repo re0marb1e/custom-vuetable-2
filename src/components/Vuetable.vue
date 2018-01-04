@@ -1,6 +1,6 @@
 <template>
   <vuetable ref="vuetable"
-            api-url="http://vuetable.ratiw.net/api/users"
+            :api-url="apiUrl"
             :fields="fields"
             :css="css"
   ></vuetable>
@@ -10,6 +10,16 @@
   import Vuetable from 'vuetable-2/src/components/Vuetable'
 
   export default {
+    props: {
+      fields: {
+        type: Array,
+        required: true
+      },
+      apiUrl: {
+        type: String,
+        required: true
+      }
+    },
     components: {
       Vuetable
     },
@@ -17,18 +27,7 @@
       return {
         css: {
           tableClass: 'table table-striped table-bordered'
-        },
-        fields: ['name', 'email', 'birthdate',
-          {
-            name: 'address.line1',
-            title: 'Address 1'
-          }, {
-            name: 'address.line2',
-            title: 'Address 2'
-          }, {
-            name: 'address.zipcode',
-            title: 'Zipcode'
-          }]
+        }
       }
     }
   }
