@@ -29,6 +29,11 @@
           tableClass: 'table table-striped table-bordered'
         }
       }
+    },
+    mounted: function () {
+      for (let [key, value] of Object.entries(this.$parent['callback'])) {
+        this[key] = value
+      }
     }
   }
 </script>

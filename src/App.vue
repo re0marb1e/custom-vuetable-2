@@ -22,8 +22,18 @@
       return {
         fields: ['name', 'email', 'birthdate',
           {
+            name: 'nickname',
+            callback: 'allcap'
+          }, {
+            name: 'gender',
+            callback: 'genderLabel'
+          }, {
+            name: 'salary'
+          }, {
             name: 'address.line1',
-            title: 'Address 1'
+            title: 'Address 1',
+            titleClass: 'text-right',
+            dataClass: 'text-right'
           }, {
             name: 'address.line2',
             title: 'Address 2'
@@ -31,7 +41,17 @@
             name: 'address.zipcode',
             title: 'Zipcode'
           }
-        ]
+        ],
+        callback: {
+          allcap (value) {
+            return value.toUpperCase()
+          },
+          genderLabel (value) {
+            return value === 'M'
+              ? '<span class="label label-info"><i class="glyphicon glyphicon-star"></i> Male</span>'
+              : '<span class="label label-success"><i class="glyphicon glyphicon-heart"></i> Female</span>'
+          }
+        }
       }
     }
   }
