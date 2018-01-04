@@ -1,17 +1,19 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
-    <HelloWorld/>
+    <div class="container">
+      <my-vuetable></my-vuetable>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import MyVuetable from './components/MyVuetable'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    MyVuetable
   }
 }
 </script>
@@ -24,5 +26,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+table.vuetable {
+  text-align: left;
 }
 </style>
