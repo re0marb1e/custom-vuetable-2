@@ -2,44 +2,37 @@
   <div id="app">
     <img src="./assets/logo.png">
     <div class="container">
-      <my-vuetable></my-vuetable>
-      <!--<vuetable :fields="fields" api-url="http://vuetable.ratiw.net/api/users"></vuetable>-->
+      <my-vuetable
+        api-url="https://vuetable.ratiw.net/api/users"
+        :fields="fields"
+        :sort-order="sortOrder"
+        detail-row-component="detail-row"
+      ></my-vuetable>
     </div>
   </div>
 </template>
 
 <script>
   import MyVuetable from './components/MyVuetable'
-  import Vuetable from './components/Vuetable.vue'
+  import FieldDefs from './components/FieldDefs.js'
+  import DetailRow from './components/DetailRow'
+  import Vue from 'vue'
+
+  Vue.component('detail-row', DetailRow)
 
   export default {
     name: 'app',
     components: {
-      MyVuetable,
-      Vuetable
+      MyVuetable
     },
     data () {
       return {
-        fields: ['name', 'email', 'birthdate',
+        fields: FieldDefs,
+        sortOrder: [  // default sort order
           {
-            name: 'nickname',
-            callback: 'allcap'
-          }, {
-            name: 'gender',
-            callback: 'genderLabel'
-          }, {
-            name: 'salary'
-          }, {
-            name: 'address.line1',
-            title: 'Address 1',
-            titleClass: 'text-right',
-            dataClass: 'text-right'
-          }, {
-            name: 'address.line2',
-            title: 'Address 2'
-          }, {
-            name: 'address.zipcode',
-            title: 'Zipcode'
+            field: 'email',
+            sortField: 'email',
+            direction: 'desc'
           }
         ],
         callback: {
@@ -65,9 +58,5 @@
     text-align: center;
     color: #2c3e50;
     margin-top: 60px;
-  }
-
-  table.vuetable {
-    text-align: left;
   }
 </style>

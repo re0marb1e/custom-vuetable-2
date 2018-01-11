@@ -2,16 +2,17 @@
   <div class="container">
     <filter-bar></filter-bar>
     <vuetable ref="vuetable"
-              api-url="http://vuetable.ratiw.net/api/users"
+              :api-url="apiUrl"
               :fields="fields"
+              :sort-order="sortOrder"
+              :detail-row-component="detailRowComponent"
+              :append-params="appendParams"
+
               :css="css.table"
-              :per-page="20"
+              :per-page="8"
               :multi-sort="true"
               multi-sort-key="ctrl"
-              :sort-order="sortOrder"
               pagination-path=""
-              detail-row-component="detail-row"
-              :append-params="moreParams"
               @vuetable:pagination-data="onPaginationData"
               @vuetable:cell-clicked="onCellClicked"
     >
@@ -47,18 +48,41 @@
   import VueEvents from 'vue-events'
 
   import FilterBar from './FilterBar'
-  import DetailRow from './DetailRow'
-  import FieldDefs from './FieldDefs.js'
 
   Vue.component('filter-bar', FilterBar)
-  Vue.component('detail-row', DetailRow)
   Vue.use(VueEvents)
 
   export default {
+    name: 'my-vuetable',
     components: {
       Vuetable,
       VuetablePagination,
       VuetablePaginationInfo
+    },
+    props: {
+      apiUrl: {
+        type: String,
+        required: true
+      },
+      fields: {
+        type: Array,
+        required: true
+      },
+      sortOrder: {
+        type: Array,
+        default () {
+          return []
+        }
+      },
+      appendParams: {
+        type: Object,
+        default () {
+          return {}
+        }
+      },
+      detailRowComponent: {
+        type: String
+      }
     },
     data () {
       return {
@@ -87,29 +111,15 @@
               last: ''
             }
           }
-        },
-        fields: FieldDefs,
-        sortOrder: [  // default sort order
-          {
-            field: 'email',
-            sortField: 'email',
-            direction: 'desc'
-          }
-        ],
-        moreParams: { // send more params
-
         }
       }
     },
+    mounted: function () {
+      for (let [key, value] of Object.entries(this.$parent['callback'])) {
+        this[key] = value
+      }
+    },
     methods: {
-      allcap (value) {
-        return value.toUpperCase()
-      },
-      genderLabel (value) {
-        return value === 'M'
-          ? '<span class="label label-info"><i class="glyphicon glyphicon-star"></i> Male</span>'
-          : '<span class="label label-success"><i class="glyphicon glyphicon-heart"></i> Female</span>'
-      },
       onPaginationData (paginationData) {
         this.$refs.pagination.setPaginationData(paginationData)
         this.$refs.paginationInfo.setPaginationData(paginationData)
@@ -127,14 +137,11 @@
     },
     events: {
       'filter-set' (filterText) {
-        this.moreParams = {
-          'filter': filterText
-        }
+        this.appendParams.filter = filterText
         Vue.nextTick(() => this.$refs.vuetable.refresh())
       },
       'filter-reset' () {
-        this.moreParams = {}
-        this.$refs.vuetable.refresh()
+        delete this.moreParams.filter
         Vue.nextTick(() => this.$refs.vuetable.refresh())
       }
     }

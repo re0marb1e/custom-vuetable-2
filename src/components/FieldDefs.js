@@ -2,19 +2,23 @@ export default [
   {
     name: '__checkbox', // '__sequence', '__handle', '__checkbox'
     title: '#',
-    dataClass: 'text-right',
+    dataClass: 'text-left',
     titleClass: 'text-center'
   }, {
     name: 'name',
-    sortField: 'name'
+    sortField: 'name',
+    dataClass: 'text-left'
   }, {
     name: 'email',
-    sortField: 'email'
+    sortField: 'email',
+    dataClass: 'text-left'
   }, {
-    name: 'birthdate'
+    name: 'birthdate',
+    dataClass: 'text-left'
   }, {
     name: 'age',
-    sortField: 'birthdate'
+    sortField: 'birthdate',
+    dataClass: 'text-left'
   }, {
     name: 'nickname',
     callback: 'allcap'

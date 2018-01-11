@@ -1,22 +1,22 @@
 <template>
   <div @click="onClick">
-    <div class="inline field">
+    <div class="inline field text-left">
       <label>Name: </label>
       <span>{{rowData.name}}</span>
     </div>
-    <div class="inline field">
+    <div class="inline field text-left">
       <label>Email: </label>
       <span>{{rowData.email}}</span>
     </div>
-    <div class="inline field">
+    <div class="inline field text-left">
       <label>Nickname: </label>
       <span>{{rowData.nickname}}</span>
     </div>
-    <div class="inline field">
+    <div class="inline field text-left">
       <label>Birthdate: </label>
       <span>{{rowData.birthdate}}</span>
     </div>
-    <div class="inline field">
+    <div class="inline field text-left">
       <label>Gender: </label>
       <span>{{rowData.gender}}</span>
     </div>
