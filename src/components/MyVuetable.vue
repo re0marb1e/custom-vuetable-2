@@ -29,7 +29,8 @@
     <div class="vuetable-pagination">
       <vuetable-pagination-info ref="paginationInfo"
                                 info-template="第 {from} 条到第 {to} 条, 总共 {total} 条"
-                                no-data-template="没有相关数据">
+                                no-data-template="没有相关数据"
+                                :css="css.paginationInfo">
       </vuetable-pagination-info>
       <vuetable-pagination ref="pagination"
                            :css="css.pagination"
@@ -68,6 +69,9 @@
             ascendingIcon: 'glyphicon glyphicon-chevron-up',
             descendingIcon: 'glyphicon glyphicon-chevron-down',
             handleIcon: 'glyphicon glyphicon-menu-hamburger'
+          },
+          paginationInfo: {
+            infoClass: 'pull-left'
           },
           pagination: {
             infoClass: 'pull-left',

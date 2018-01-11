@@ -11,14 +11,20 @@
 
   export default {
     props: {
+      apiUrl: {
+        type: String,
+        required: true
+      },
       fields: {
         type: Array,
         required: true
       },
-      apiUrl: {
-        type: String,
-        required: true
-      }
+      sortOrder: {
+        type: Array,
+        default () {
+          return []
+        }
+      },
     },
     components: {
       Vuetable
