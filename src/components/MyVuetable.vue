@@ -27,12 +27,8 @@
         </div>
       </template>
     </vuetable>
-    <div class="vuetable-pagination">
-      <vuetable-pagination-info ref="paginationInfo"
-                                info-template="第 {from} 条到第 {to} 条, 总共 {total} 条"
-                                no-data-template="没有相关数据"
-                                :css="css.paginationInfo">
-      </vuetable-pagination-info>
+    <div>
+      <custom-vuetable-pagination-info ref="customPaginationInfo"></custom-vuetable-pagination-info>
       <vuetable-pagination ref="pagination"
                            :css="css.pagination"
                            @vuetable-pagination:change-page="onChangePage">
@@ -43,10 +39,10 @@
 <script>
   import Vuetable from 'vuetable-2/src/components/Vuetable'
   import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
-  import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
   import Vue from 'vue'
   import VueEvents from 'vue-events'
 
+  import CustomVuetablePaginationInfo from './CustomVuetablePaginationInfo'
   import FilterBar from './FilterBar'
 
   Vue.component('filter-bar', FilterBar)
@@ -57,7 +53,7 @@
     components: {
       Vuetable,
       VuetablePagination,
-      VuetablePaginationInfo
+      CustomVuetablePaginationInfo
     },
     props: {
       apiUrl: {
@@ -94,9 +90,6 @@
             descendingIcon: 'glyphicon glyphicon-chevron-down',
             handleIcon: 'glyphicon glyphicon-menu-hamburger'
           },
-          paginationInfo: {
-            infoClass: 'pull-left'
-          },
           pagination: {
             infoClass: 'pull-left',
             wrapperClass: 'vuetable-pagination pull-right',
@@ -122,7 +115,7 @@
     methods: {
       onPaginationData (paginationData) {
         this.$refs.pagination.setPaginationData(paginationData)
-        this.$refs.paginationInfo.setPaginationData(paginationData)
+        this.$refs.customPaginationInfo.setPaginationData(paginationData)
       },
       onChangePage (page) {
         this.$refs.vuetable.changePage(page)
