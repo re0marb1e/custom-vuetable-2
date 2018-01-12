@@ -29,19 +29,16 @@
     </vuetable>
     <div>
       <custom-vuetable-pagination-info ref="customPaginationInfo"></custom-vuetable-pagination-info>
-      <vuetable-pagination ref="pagination"
-                           :css="css.pagination"
-                           @vuetable-pagination:change-page="onChangePage">
-      </vuetable-pagination>
+      <custom-vuetable-pagination ref="customPagination"></custom-vuetable-pagination>
     </div>
   </div>
 </template>
 <script>
   import Vuetable from 'vuetable-2/src/components/Vuetable'
-  import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
   import Vue from 'vue'
   import VueEvents from 'vue-events'
 
+  import CustomVuetablePagination from './CustomVuetablePagination'
   import CustomVuetablePaginationInfo from './CustomVuetablePaginationInfo'
   import FilterBar from './FilterBar'
 
@@ -52,7 +49,7 @@
     name: 'my-vuetable',
     components: {
       Vuetable,
-      VuetablePagination,
+      CustomVuetablePagination,
       CustomVuetablePaginationInfo
     },
     props: {
@@ -89,20 +86,6 @@
             ascendingIcon: 'glyphicon glyphicon-chevron-up',
             descendingIcon: 'glyphicon glyphicon-chevron-down',
             handleIcon: 'glyphicon glyphicon-menu-hamburger'
-          },
-          pagination: {
-            infoClass: 'pull-left',
-            wrapperClass: 'vuetable-pagination pull-right',
-            activeClass: 'btn-primary',
-            disabledClass: 'disabled',
-            pageClass: 'btn btn-border',
-            linkClass: 'btn btn-border',
-            icons: {
-              first: '',
-              prev: '',
-              next: '',
-              last: ''
-            }
           }
         }
       }
@@ -114,11 +97,8 @@
     },
     methods: {
       onPaginationData (paginationData) {
-        this.$refs.pagination.setPaginationData(paginationData)
+        this.$refs.customPagination.setPaginationData(paginationData)
         this.$refs.customPaginationInfo.setPaginationData(paginationData)
-      },
-      onChangePage (page) {
-        this.$refs.vuetable.changePage(page)
       },
       onCellClicked (data, field, event) {
         console.log('cellClicked: ', field.name)
