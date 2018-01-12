@@ -43,5 +43,7 @@
 </script>
 
 <style scoped>
-
+  .vuetable-pagination {
+    margin-top: 0px;
+  }
 </style>

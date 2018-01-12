@@ -121,16 +121,8 @@
   }
 </script>
 <style>
-  .pagination {
-    margin-top: 0;
-  }
-
   .btn.btn-border {
     border: 1px solid;
     margin-right: 2px;
-  }
-
-  .vuetable-pagination-info {
-    margin-top: 8px !important;
   }
 </style>
