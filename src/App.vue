@@ -2,21 +2,19 @@
   <div id="app">
     <img src="./assets/logo.png">
     <div class="container">
-      <my-vuetable
+      <custom-vuetable
         api-url="https://vuetable.ratiw.net/api/users"
         :fields="fields"
         :sort-order="sortOrder"
         detail-row-component="detail-row"
-        :is-row-viewable="true"
-        :is-row-editable="true"
-        :is-row-deletable="true"
-      ></my-vuetable>
+        :actions-column="actionsColumn">
+      </custom-vuetable>
     </div>
   </div>
 </template>
 
 <script>
-  import MyVuetable from './components/MyVuetable'
+  import CustomVuetable from './components/CustomVuetable'
   import FieldDefs from './components/FieldDefs.js'
   import DetailRow from './components/DetailRow'
   import Vue from 'vue'
@@ -26,7 +24,7 @@
   export default {
     name: 'app',
     components: {
-      MyVuetable
+      CustomVuetable
     },
     data () {
       return {
@@ -38,6 +36,11 @@
             direction: 'desc'
           }
         ],
+        actionsColumn: {
+          viewAction: true,
+          editAction: true,
+          deleteAction: true
+        },
         callback: {
           allcap (value) {
             return value.toUpperCase()

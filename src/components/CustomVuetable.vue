@@ -3,7 +3,7 @@
     <filter-bar></filter-bar>
     <vuetable ref="vuetable"
               :api-url="apiUrl"
-              :fields="fields"
+              :fields="tableFields"
               :sort-order="sortOrder"
               :detail-row-component="detailRowComponent"
               :append-params="appendParams"
@@ -15,11 +15,12 @@
               @vuetable:pagination-data="onPaginationData"
               @vuetable:cell-clicked="onCellClicked"
     >
-      <template slot="actions" slot-scope="props">
-        <div class="custom-actions">
-          <custom-view-action v-if="isRowViewable" :row-data="props.rowData" :row-index="props.rowIndex"></custom-view-action>
-          <custom-edit-action v-if="isRowEditable" :row-data="props.rowData" :row-index="props.rowIndex"></custom-edit-action>
-          <custom-delete-action v-if="isRowDeletable" :row-data="props.rowData" :row-index="props.rowIndex"></custom-delete-action>
+      <template v-if="actionsColumn" slot="actions" slot-scope="props">
+        <div class="actions">
+          <slot name="custom-actions" :row-data="props.rowData" :row-index="props.rowIndex"></slot>
+          <custom-view-action v-if="actionsColumn.viewAction" :row-data="props.rowData" :row-index="props.rowIndex"></custom-view-action>
+          <custom-edit-action v-if="actionsColumn.editAction" :row-data="props.rowData" :row-index="props.rowIndex"></custom-edit-action>
+          <custom-delete-action v-if="actionsColumn.deleteAction" :row-data="props.rowData" :row-index="props.rowIndex"></custom-delete-action>
         </div>
       </template>
     </vuetable>
@@ -45,7 +46,7 @@
   Vue.use(VueEvents)
 
   export default {
-    name: 'my-vuetable',
+    name: 'custom-vuetable',
     components: {
       Vuetable,
       CustomVuetablePagination,
@@ -78,22 +79,14 @@
       detailRowComponent: {
         type: String
       },
-      isRowDeletable: {
-        type: Boolean,
+      actionsColumn: {
+        type: Object | Boolean,
         default () {
-          return false
-        }
-      },
-      isRowEditable: {
-        type: Boolean,
-        default () {
-          return false
-        }
-      },
-      isRowViewable: {
-        type: Boolean,
-        default () {
-          return false
+          return {
+            viewAction: false,
+            editAction: false,
+            deleteAction: false
+          }
         }
       }
     },
@@ -105,6 +98,23 @@
           ascendingIcon: 'glyphicon glyphicon-chevron-up',
           descendingIcon: 'glyphicon glyphicon-chevron-down',
           handleIcon: 'glyphicon glyphicon-menu-hamburger'
+        }
+      }
+    },
+    computed: {
+      tableFields () {
+        if (this.actionsColumn) {
+          return [
+            ...this.fields,
+            {
+              name: '__slot:actions',
+              title: '操作',
+              titleClass: 'text-center',
+              dataClass: 'text-center'
+            }
+          ]
+        } else {
+          return this.fields
         }
       }
     },
@@ -121,9 +131,6 @@
       onCellClicked (data, field, event) {
         console.log('cellClicked: ', field.name)
         this.$refs.vuetable.toggleDetailRow(data.id)
-      },
-      itemAction (action, data, index) {
-        console.log('custom-actions: ' + action, data.name, index)
       }
     },
     events: {

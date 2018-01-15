@@ -28,11 +28,5 @@ export default [
   }, {
     name: 'salary',
     visible: false
-  }, {
-    // name: '__component:custom-actions',
-    name: '__slot:actions',
-    title: 'Actions',
-    titleClass: 'text-center',
-    dataClass: 'text-center'
   }
 ]
