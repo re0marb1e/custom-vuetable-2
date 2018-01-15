@@ -7,6 +7,9 @@
         :fields="fields"
         :sort-order="sortOrder"
         detail-row-component="detail-row"
+        :is-row-viewable="true"
+        :is-row-editable="true"
+        :is-row-deletable="true"
       ></my-vuetable>
     </div>
   </div>

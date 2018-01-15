@@ -7,8 +7,7 @@
               :sort-order="sortOrder"
               :detail-row-component="detailRowComponent"
               :append-params="appendParams"
-
-              :css="css.table"
+              :css="css"
               :per-page="8"
               :multi-sort="true"
               multi-sort-key="ctrl"
@@ -18,12 +17,9 @@
     >
       <template slot="actions" slot-scope="props">
         <div class="custom-actions">
-          <button class="btn btn-default" @click="itemAction('view-item', props.rowData, props.rowIndex)"><i
-            class="glyphicon glyphicon-zoom-in"></i></button>
-          <button class="btn btn-default" @click="itemAction('edit-item', props.rowData, props.rowIndex)"><i
-            class="glyphicon glyphicon-pencil"></i></button>
-          <button class="btn btn-default" @click="itemAction('delete-item', props.rowData, props.rowIndex)"><i
-            class="glyphicon glyphicon-remove"></i></button>
+          <custom-view-action v-if="isRowViewable" :row-data="props.rowData" :row-index="props.rowIndex"></custom-view-action>
+          <custom-edit-action v-if="isRowEditable" :row-data="props.rowData" :row-index="props.rowIndex"></custom-edit-action>
+          <custom-delete-action v-if="isRowDeletable" :row-data="props.rowData" :row-index="props.rowIndex"></custom-delete-action>
         </div>
       </template>
     </vuetable>
@@ -40,6 +36,9 @@
 
   import CustomVuetablePagination from './CustomVuetablePagination'
   import CustomVuetablePaginationInfo from './CustomVuetablePaginationInfo'
+  import CustomViewAction from './CustomViewAction'
+  import CustomEditAction from './CustomEditAction'
+  import CustomDeleteAction from './CustomDeleteAction'
   import FilterBar from './FilterBar'
 
   Vue.component('filter-bar', FilterBar)
@@ -50,7 +49,10 @@
     components: {
       Vuetable,
       CustomVuetablePagination,
-      CustomVuetablePaginationInfo
+      CustomVuetablePaginationInfo,
+      CustomViewAction,
+      CustomEditAction,
+      CustomDeleteAction
     },
     props: {
       apiUrl: {
@@ -75,18 +77,34 @@
       },
       detailRowComponent: {
         type: String
+      },
+      isRowDeletable: {
+        type: Boolean,
+        default () {
+          return false
+        }
+      },
+      isRowEditable: {
+        type: Boolean,
+        default () {
+          return false
+        }
+      },
+      isRowViewable: {
+        type: Boolean,
+        default () {
+          return false
+        }
       }
     },
     data () {
       return {
         css: {
-          table: {
-            tableClass: 'table table-striped table-bordered table-hovered',
-            loadingClass: 'loading',
-            ascendingIcon: 'glyphicon glyphicon-chevron-up',
-            descendingIcon: 'glyphicon glyphicon-chevron-down',
-            handleIcon: 'glyphicon glyphicon-menu-hamburger'
-          }
+          tableClass: 'table table-striped table-bordered table-hovered',
+          loadingClass: 'loading',
+          ascendingIcon: 'glyphicon glyphicon-chevron-up',
+          descendingIcon: 'glyphicon glyphicon-chevron-down',
+          handleIcon: 'glyphicon glyphicon-menu-hamburger'
         }
       }
     },
